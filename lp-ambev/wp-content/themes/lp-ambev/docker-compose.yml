@@ -1,0 +1,43 @@
+version: "3.9"
+    
+services:
+
+    wordpress:
+        # pra esse build funcionar o docker file precisa estar na raiz
+        build: .
+        restart: always
+        
+        ports:
+            # essa porta está padrão
+          - "8000:80"
+          
+        restart: always
+        environment:
+           
+          WORDPRESS_DB_HOST: localhost
+          WORDPRESS_DB_USER: root
+          WORDPRESS_DB_PASSWORD: P2vzcH)@tkj*LgQFf0
+          WORDPRESS_DB_NAME: lp-ambev
+  db:
+    image: mysql:5.7
+    volumes:
+    #   definir aqui qual será este volume para persistencia
+    restart: always
+    environment:
+    # apontar o host pra onde o banco vai ficar
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: lp-ambev
+      MYSQL_USER: lettuser
+      MYSQL_PASSWORD: P2vzcH)@tkj*LgQFf0
+    
+    adminer:
+        depends_on: 
+            -db
+        image: adminer
+        restart: always
+        # porta definida na máquina
+        ports: 8080:80
+        
+ 
+volumes:
+  db_data: {}
